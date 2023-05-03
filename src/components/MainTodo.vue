@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 const todoRef = ref('');
 const todoListRef = ref([]);
+const ls = localStorage.todoList;
+todoListRef.value = ls ? JSON.parse(ls) : [];
 const addTodo = () => {
   const id = new Date().getTime();
   todoListRef.value.push({ id, task: todoRef.value });
@@ -21,9 +23,9 @@ const addTodo = () => {
     <button class="btn" @click="addTodo">追加</button>
   </div>
   <div class="box_list">
-    <div class="todo_list">
+    <div class="todo_list" v-for="todo in todoListRef" :key="todo.id">
       <div class="todo">
-        <input type="checkbox" class="check" /><label>TODO1</label>
+        <input type="checkbox" class="check" /><label>{{ todo.task }}</label>
       </div>
       <div class="btns">
         <button class="btn green">編</button>
